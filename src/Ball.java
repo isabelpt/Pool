@@ -168,8 +168,8 @@ public class Ball {
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.blue);
-        g.fillOval(x + dx, y + dy, 2 * radius, 2 * radius);
+        g.setColor(Color.white);
+        g.fillOval(x, y, 2 * radius, 2 * radius);
 
     }
 }

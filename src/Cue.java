@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 
 public class Cue {
@@ -9,14 +10,14 @@ public class Cue {
     private Double angle;
     private Image img;
 
-    public Cue(int startX, int startY, int width, int height, Ball whiteBall, Double angle, Image img) {
-        this.startX = startX;
-        this.startY = startY;
-        this.width = width;
-        this.height = height;
-        this.whiteBall = whiteBall;
-        this.angle = angle;
-        this.img = img;
+    public Cue(Ball b) {
+        this.x = 400;
+        this.y = 400;
+//        this.width = width;
+//        this.height = height;
+     //   this.angle = angle;
+        whiteBall = b;
+        this.img = new ImageIcon("resources/cue.png").getImage();
     }
 
     public int getX() {
@@ -103,10 +104,6 @@ public class Cue {
         return img;
     }
 
-    public void setImg(Image img) {
-        this.img = img;
-    }
-
     public void rotate(Double nAngle) {
 
     }
@@ -118,4 +115,9 @@ public class Cue {
     public void drawTrajectory(Ball b) {
 
     }
+
+    public void draw(Graphics g, PoolView window) {
+        g.drawImage(img, whiteBall.getX() - x, whiteBall.getY() - whiteBall.getRadius() / 2, 400, 50, window);
+    }
+
 }

@@ -8,9 +8,11 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
     private PoolGame game;
     private Ball b;
     private Table table;
+    private Cue cue;
     public PoolView() {
-        this.b = new Ball(100, 100, 12, 2, 2, 7);
+        this.b = new Ball(600, 400, 12, 2, 2, 7);
         table = new Table();
+        cue = new Cue(b);
     }
 
     public void startView() {
@@ -22,6 +24,7 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
         g.fillRect(0, 0, 1000, 800);
         table.draw(g, this);
         b.draw(g);
+        cue.draw(g, this);
     }
 
     @Override
@@ -51,8 +54,12 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        b.setX(e.getX());
-        b.setY(e.getY());
+//        b.setX(e.getX());
+//        b.setY(e.getY());
+        if (b.getX() - cue.getX() < 500) {
+            cue.setX(cue.getX() + 2);
+        }
+
         repaint();
     }
 
