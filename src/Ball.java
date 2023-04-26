@@ -15,14 +15,15 @@ public class Ball {
     private Double angle;
     private Image img;
 
-    public Ball(int startX, int startY, int radius, int dx, int dy, int num, Image img) {
+    public Ball(int startX, int startY, int radius, int dx, int dy, int num) {
         this.startX = startX;
         this.startY = startY;
+        x = startX;
+        y = startY;
         this.radius = radius;
         this.dx = dx;
         this.dy = dy;
         this.num = num;
-        this.img = img;
     }
 
     public int getX() {
@@ -154,7 +155,8 @@ public class Ball {
     }
 
     public void move() {
-
+        x += dx;
+        y += dy;
     }
 
     public void bounceWall() {
@@ -166,6 +168,8 @@ public class Ball {
     }
 
     public void draw(Graphics g) {
+        g.setColor(Color.blue);
+        g.fillOval(x + dx, y + dy, 2 * radius, 2 * radius);
 
     }
 }

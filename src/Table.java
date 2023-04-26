@@ -1,31 +1,26 @@
+import javax.swing.*;
 import java.awt.*;
 
 public class Table {
-    private int height, width;
+    // private int height, width;
+    public final static int height = 500;
+    public final static int width = 800;
+    private static final Double friction = 0.9;
     private Ball[] balls;
+    private Ball b;
     private Image img;
 
-    public Table(int height, int width, Ball[] balls, Image img) {
-        this.height = height;
-        this.width = width;
-        this.balls = balls;
-        this.img = img;
+    public Table() {
+        //this.balls = balls;
+        this.img = new ImageIcon("resources/table.png").getImage();
     }
 
     public int getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
     public int getWidth() {
         return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
     }
 
     public Ball[] getBalls() {
@@ -58,5 +53,9 @@ public class Table {
 
     public void setTriangle() {
 
+    }
+
+    public void draw(Graphics g, PoolView window) {
+        g.drawImage(img, 100, 200, width, height, window);
     }
 }

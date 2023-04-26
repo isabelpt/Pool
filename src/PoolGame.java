@@ -1,8 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class PoolGame extends JFrame {
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+
+public class PoolGame {
     private PoolView view;
+    public static final int WINDOW_WIDTH = 1000;
+    public static final int WINDOW_HEIGHT = 800;
 
     public PoolGame() {
     }
@@ -23,7 +27,21 @@ public class PoolGame extends JFrame {
 
     }
 
-    public void man() {
+    public static void main(String args[]) {
+        PoolView window = new PoolView();
+        window.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        window.setVisible(true);
+        window.createBufferStrategy(2);
+        window.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        window.repaint();
 
+
+        // in your main() method, make sure to "turn on" mouse listener and mouse motion listener!!
+
+        // Register the Mouse Listener and Mouse Motion Listener
+        window.addMouseListener(window);
+        window.addMouseMotionListener(window);
+
+        window.repaint();
     }
 }
