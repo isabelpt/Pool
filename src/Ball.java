@@ -170,7 +170,7 @@ public class Ball {
     public void draw(Graphics g) {
         g.setColor(Color.white);
         g.fillOval(x, y, 2 * radius, 2 * radius);
-        g.setColor(Color.red);
-        g.drawOval(x - 5, y - 5, 2* radius + 10, 2*radius + 10);
+//        g.setColor(Color.red);
+//        g.drawOval(x - 10, y - 10, 2* radius + 20, 2*radius + 20);
     }
 }

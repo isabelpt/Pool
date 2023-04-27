@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 public class Cue {
     private int x, y;
@@ -11,11 +12,12 @@ public class Cue {
     private Image img;
 
     public Cue(Ball b) {
-        this.x = 400;
-        this.y = 400;
+        this.x = b.getStartX() + 24 + 10; // 24: diameter, 5 radius of outer circle
+        this.y = b.getStartY() + 12;
 //        this.width = width;
 //        this.height = height;
      //   this.angle = angle;
+        angle = Math.toRadians(180);
         whiteBall = b;
         this.img = new ImageIcon("resources/cue.png").getImage();
     }
@@ -118,8 +120,16 @@ public class Cue {
 
     public void draw(Graphics g, PoolView window) {
         g.setColor(Color.WHITE);
-        g.fillRect(whiteBall.getX() - x - 5, whiteBall.getY() + whiteBall.getRadius() - 5, 400, 5);
+        //g.fillRect(whiteBall.getX() - x - 5, whiteBall.getY() + whiteBall.getRadius() - 5, 400, 5);
         //g.drawImage(img, whiteBall.getX() - x, whiteBall.getY() - whiteBall.getRadius() / 2, 400, 50, window);
+        Graphics2D g2d = (Graphics2D) g;
+        //AffineTransform tx = new AffineTransform();
+        //tx.rotate(0.5);
+
+        Rectangle shape = new Rectangle(x, y, 400, 5);
+        g2d.rotate(angle, whiteBall.getX() + 12, whiteBall.getY() + 12); // Rotate around the center of the ball
+        g2d.fill(shape);
+        g2d.draw(shape);
     }
 
 }
