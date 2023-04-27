@@ -117,7 +117,9 @@ public class Cue {
     }
 
     public void draw(Graphics g, PoolView window) {
-        g.drawImage(img, whiteBall.getX() - x, whiteBall.getY() - whiteBall.getRadius() / 2, 400, 50, window);
+        g.setColor(Color.WHITE);
+        g.fillRect(whiteBall.getX() - x - 5, whiteBall.getY() + whiteBall.getRadius() - 5, 400, 5);
+        //g.drawImage(img, whiteBall.getX() - x, whiteBall.getY() - whiteBall.getRadius() / 2, 400, 50, window);
     }
 
 }

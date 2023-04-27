@@ -65,6 +65,13 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        int newX = Math.abs(mouseX - b.getX()) + 5;
+        int newY = Math.abs(mouseY - b.getY()) + 5;
+        cue.setX(newX);
+        cue.setY(newY);
 
+        repaint();
     }
 }
