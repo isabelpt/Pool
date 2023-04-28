@@ -59,7 +59,9 @@ public class Table {
 
     public void draw(Graphics g, PoolView window) {
 
-        g.drawImage(img, 100, 200, width, height, window);
+        // g.drawImage(img, 0, 18, width, height - 18, window);
+        g.setColor(new Color(50, 168, 82));
+        g.fillRect(0, 0, width, height);
 
         g.setColor(Color.yellow);
         //g.fillRect(200, 300, playWidth, playHeight);

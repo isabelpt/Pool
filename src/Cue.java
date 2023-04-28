@@ -10,16 +10,26 @@ public class Cue {
     private Ball whiteBall;
     private Double angle;
     private Image img;
+    boolean launching;
 
     public Cue(Ball b) {
         this.x = b.getStartX() + 24 + 10; // 24: diameter, 5 radius of outer circle
-        this.y = b.getStartY() + 12;
+        this.y = b.getStartY() + 12 - 2;
 //        this.width = width;
 //        this.height = height;
      //   this.angle = angle;
+        launching = false;
         angle = Math.toRadians(180);
         whiteBall = b;
         this.img = new ImageIcon("resources/cue.png").getImage();
+    }
+
+    public boolean isLaunching() {
+        return launching;
+    }
+
+    public void setLaunching(boolean launching) {
+        this.launching = launching;
     }
 
     public int getX() {
@@ -119,7 +129,7 @@ public class Cue {
     }
 
     public void draw(Graphics g, PoolView window) {
-        g.setColor(Color.WHITE);
+        g.setColor(Color.BLACK);
         //g.fillRect(whiteBall.getX() - x - 5, whiteBall.getY() + whiteBall.getRadius() - 5, 400, 5);
         //g.drawImage(img, whiteBall.getX() - x, whiteBall.getY() - whiteBall.getRadius() / 2, 400, 50, window);
         Graphics2D g2d = (Graphics2D) g;
@@ -130,6 +140,7 @@ public class Cue {
         g2d.rotate(angle, whiteBall.getX() + 12, whiteBall.getY() + 12); // Rotate around the center of the ball
         g2d.fill(shape);
         g2d.draw(shape);
+        // g2d.drawImage(img, x, y, 200, 50, window);
     }
 
 }
