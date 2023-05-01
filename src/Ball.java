@@ -5,8 +5,7 @@ public class Ball {
     private int startX, startY;
     private int radius;
     private int dx, dy;
-    private int num;
-    private boolean isSolid;
+    private Color color;
     private boolean isTouchingBall;
     private boolean isTouchingWall;
     private boolean inPocket;
@@ -15,15 +14,15 @@ public class Ball {
     private Double angle;
     private Image img;
 
-    public Ball(int startX, int startY, int radius, int dx, int dy, int num) {
+    public Ball(int startX, int startY, int radius, Color color) {
         this.startX = startX;
         this.startY = startY;
         x = startX;
         y = startY;
         this.radius = radius;
-        this.dx = dx;
-        this.dy = dy;
-        this.num = num;
+        this.dx = 0;
+        this.dy = 0;
+        this.color = color;
     }
 
     public int getX() {
@@ -82,21 +81,6 @@ public class Ball {
         this.dy = dy;
     }
 
-    public int getNum() {
-        return num;
-    }
-
-    public void setNum(int num) {
-        this.num = num;
-    }
-
-    public boolean isSolid() {
-        return isSolid;
-    }
-
-    public void setSolid(boolean solid) {
-        isSolid = solid;
-    }
 
     public boolean isTouchingBall() {
         return isTouchingBall;
@@ -168,7 +152,7 @@ public class Ball {
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.white);
+        g.setColor(color);
         g.fillOval(x, y, 2 * radius, 2 * radius);
 //        g.setColor(Color.red);
 //        g.drawOval(x - 10, y - 10, 2* radius + 20, 2*radius + 20);

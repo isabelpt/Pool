@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class PoolView extends JFrame implements MouseListener, MouseMotionListener {
     private PoolGame game;
@@ -10,9 +12,10 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
     private Table table;
     private Cue cue;
     public PoolView() {
-        table = new Table();
-        this.b = new Ball(200, table.getHeight() / 2 + 12, 12, 2, 2, 7);
+        this.b = new Ball(200, 500 / 2 + 12, 12, Color.white);
+        table = new Table(b);
         cue = new Cue(b);
+        infoBox("Welcome to pool! To play, rotate the cue and pull back to release it. The game ends when you pocket the 8-ball. Good luck!", "PoolGame");
     }
 
     public void startView() {
@@ -23,6 +26,10 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
         g.setColor(Color.black);
         g.fillRect(0, 0, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
         table.draw(g, this);
+        ArrayList<Ball> balls = table.getBalls();
+        for (Ball ball: balls) {
+            ball.draw(g);
+        }
         b.draw(g);
         cue.draw(g, this);
         Toolkit.getDefaultToolkit().sync();
@@ -68,6 +75,11 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        /**
+         * https://www.instructables.com/Using-Java-to-Rotate-an-Object-to-Face-the-Mouse/
+         * http://www.java2s.com/example/java/2d-graphics/draw-a-rotated-rectangle.html
+         * 
+         */
         int mouseX = e.getX();
         int mouseY = e.getY();
         double Xd = mouseX - b.getX();
@@ -79,5 +91,11 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
         cue.setAngle(radAngle);
         repaint();
 
+    }
+
+    //
+    public static void infoBox(String infoMessage, String titleBar)
+    {
+        JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.PLAIN_MESSAGE);
     }
 }
