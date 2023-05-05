@@ -11,17 +11,29 @@ public class Cue {
     private Double angle;
     private Image img;
     boolean launching;
+    private boolean isVisible;
+    private int distBall;
 
     public Cue(Ball b) {
         this.x = b.getStartX() + 24 + 10; // 24: diameter, 5 radius of outer circle
         this.y = b.getStartY() + 12 - 2;
+        distBall = x - b.getX();
 //        this.width = width;
 //        this.height = height;
      //   this.angle = angle;
         launching = false;
+        isVisible = true;
         angle = Math.toRadians(180);
         whiteBall = b;
         this.img = new ImageIcon("resources/cue.png").getImage();
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 
     public boolean isLaunching() {
@@ -64,46 +76,6 @@ public class Cue {
         this.startY = startY;
     }
 
-    public int getDx() {
-        return dx;
-    }
-
-    public void setDx(int dx) {
-        this.dx = dx;
-    }
-
-    public int getDy() {
-        return dy;
-    }
-
-    public void setDy(int dy) {
-        this.dy = dy;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public Ball getWhiteBall() {
-        return whiteBall;
-    }
-
-    public void setWhiteBall(Ball whiteBall) {
-        this.whiteBall = whiteBall;
-    }
-
     public Double getAngle() {
         return angle;
     }
@@ -112,16 +84,25 @@ public class Cue {
         this.angle = angle;
     }
 
-    public Image getImg() {
-        return img;
+    public int distBall() {
+        // get center of the ball
+        double bx = whiteBall.getX() + whiteBall.getRadius();
+        double by = whiteBall.getY() + whiteBall.getRadius();
+        // get distance from center
+        distBall = (int) Math.sqrt(Math.pow(x - bx, 2) + Math.pow(y - by, 2));
+        return distBall;
     }
 
-    public void rotate(Double nAngle) {
-
-    }
-
-    public void drag() {
-
+    public boolean checkCollision() {
+//        // get center of the ball
+//        double bx = whiteBall.getX() + whiteBall.getRadius();
+//        double by = whiteBall.getY() + whiteBall.getRadius();
+//        // get distance from center
+//        int dist = (int) Math.sqrt(Math.pow(x - bx, 2) + Math.pow(y - by, 2));
+        if (distBall <= 12) {
+            return true;
+        }
+        return false;
     }
 
     public void drawTrajectory(Ball b) {
@@ -140,7 +121,7 @@ public class Cue {
         g2d.rotate(angle, whiteBall.getX() + 12, whiteBall.getY() + 12); // Rotate around the center of the ball
         g2d.fill(shape);
         g2d.draw(shape);
-        // g2d.drawImage(img, x, y, 200, 50, window);
+        g2d.drawImage(img, x, y, 200, 50, window);
     }
 
 }

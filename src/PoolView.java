@@ -11,11 +11,24 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
     private Ball b;
     private Table table;
     private Cue cue;
-    public PoolView() {
-        this.b = new Ball(200, 500 / 2 + 12, 12, Color.white);
-        table = new Table(b);
-        cue = new Cue(b);
+    public PoolView(PoolGame game) {
+        this.game = game;
+        this.b = game.getB();
+        this.table = game.getTable();
+        this.cue = game.getCue();
+
         infoBox("Welcome to pool! To play, rotate the cue and pull back to release it. The game ends when you pocket the 8-ball. Good luck!", "PoolGame");
+
+        this.setSize(game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
+        this.setVisible(true);
+        this.createBufferStrategy(2);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.repaint();
+
+        this.addMouseListener(this);
+        this.addMouseMotionListener(this);
+
+//        this.repaint();
     }
 
     public void startView() {
@@ -31,7 +44,9 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
             ball.draw(g);
         }
         b.draw(g);
-        cue.draw(g, this);
+        if(cue.isVisible()) {
+            cue.draw(g, this);
+        }
         Toolkit.getDefaultToolkit().sync();
     }
 
@@ -47,8 +62,13 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        cue.setX(b.getStartX() + 24 + 10);
-        cue.setY(b.getStartY() + 12 - 2);
+        cue.setX(b.getX() + 12 + 12);
+        cue.setY(b.getY() + 12 - 2);
+//        if(cue.checkCollision()) {
+//            // set ball velocity and angle
+//            // b.move()
+//        }
+        //cue.setVisible(false);
     }
 
     @Override
@@ -69,7 +89,6 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
         if (cue.getX() - b.getX() < 75) {
             cue.setX(cue.getX() + 1);
         }
-
         repaint();
     }
 

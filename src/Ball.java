@@ -143,6 +143,10 @@ public class Ball {
         y += dy;
     }
 
+    public void move(double velocity, double angle) {
+
+    }
+
     public void bounceWall() {
 
     }
