@@ -121,7 +121,7 @@ public class Cue {
         g2d.rotate(angle, whiteBall.getX() + 12, whiteBall.getY() + 12); // Rotate around the center of the ball
         g2d.fill(shape);
         g2d.draw(shape);
-        g2d.drawImage(img, x, y, 200, 50, window);
+        //g2d.drawImage(img, x, y, 200, 50, window);
     }
 
 }
