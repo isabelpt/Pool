@@ -25,6 +25,8 @@ public class Ball {
         this.dy = 0;
         this.color = color;
         this.game = game;
+        inPocket = false;
+        angle = 0.0;
     }
 
     public int getX() {
@@ -137,31 +139,19 @@ public class Ball {
         y += dy;
         dx = (int) (dx * friction);
         dy = (int) (dy * friction);
+        // get hypotanuse of distance
     }
 
     public void move(double velocity, double angle) {
         dx = (int) (velocity * Math.cos(angle)) * -1;
         dy = (int) (velocity * Math.sin(angle)) * -1;
-//        while (dx > 0 || dy > 0) {
-//            x += dx;
-//            y += dx;
-//            dx = (int) (dx * friction);
-//            dy = (int) (dx * friction);
-//        }
-        x += (int) (dx * friction);
-        y += (int) (dy * friction);
+        x += (int) (dx * friction + 0.5);
+        y += (int) (dy * friction + 0.5);
         System.out.println("X: " + dx * friction);
         System.out.println("Y: " + dy * friction);
     }
 
     public void bounceWall() {
-//        if ((x <= 0 && dx < 0) || (x >= tankWidth - tank.getFishImages()[0].getHeight(tank) && dx > 0)) {
-//            dx = -dx;
-//        }
-//        // Image does not take up all 120 px vertically, so have to subtract 90 instead
-//        if ((y <= 0 && dy < 0) || (y >= tankHeight - (90) && dy > 0)) {
-//            dy = -dy;
-//        }
         if ((x <= 0 && dx < 0) || (x >= game.WINDOW_WIDTH - radius * 2 && dx > 0)) {
             dx = -dx;
         }
@@ -175,9 +165,9 @@ public class Ball {
     }
 
     public void draw(Graphics g) {
-        g.setColor(color);
-        g.fillOval(x, y, 2 * radius, 2 * radius);
-//        g.setColor(Color.red);
-//        g.drawOval(x - 10, y - 10, 2* radius + 20, 2*radius + 20);
+        if(!inPocket) {
+            g.setColor(color);
+            g.fillOval(x, y, 2 * radius, 2 * radius);
+        }
     }
 }

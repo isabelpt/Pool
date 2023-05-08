@@ -130,7 +130,7 @@ public class Cue {
             //AffineTransform tx = new AffineTransform();
             //tx.rotate(0.5);
 
-            Rectangle shape = new Rectangle(x, y, 400, 5);
+            Rectangle shape = new Rectangle(x, y, 300, 5);
             g2d.rotate(angle, whiteBall.getX() + 12, whiteBall.getY() + 12); // Rotate around the center of the ball
             g2d.fill(shape);
             g2d.draw(shape);

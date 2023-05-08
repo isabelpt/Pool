@@ -7,7 +7,7 @@ public class PoolGame implements ActionListener {
     private PoolView window;
     public static final int WINDOW_WIDTH = 800;
     public static final int WINDOW_HEIGHT = 500;
-    private static final int SLEEP_TIME = 100;
+    private static final int SLEEP_TIME = 33;
     private Ball b;
     private Table table;
     private Cue cue;
@@ -50,8 +50,9 @@ public class PoolGame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         System.out.println("Hi");
         // Calculate velocity of the cue
-        b.move();
         b.bounceWall();
+        b.move();
+        table.checkPockets();
         //cue.resetPosition();
         window.repaint();
     }

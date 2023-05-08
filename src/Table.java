@@ -92,7 +92,9 @@ public class Table {
     }
 
     public void checkPockets() {
-
+        for (Pocket p: pockets) {
+            p.inPocket(b);
+        }
     }
 
     public void setTriangle() {
