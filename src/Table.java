@@ -8,7 +8,7 @@ public class Table {
     public final static int width = 800;
     public final static int playHeight = 500;
     public final static int playWidth = 800;
-    private static final Double friction = 0.9;
+    public static final Double friction = 0.9;
     private static final Color[] ballColors = {Color.red, Color.orange, Color.yellow, Color.green,
             Color.blue, Color.pink, Color.blue, Color.cyan, Color.BLACK, Color.gray, Color.darkGray,
     Color.red, Color.orange, Color.yellow, Color.pink};
@@ -17,8 +17,9 @@ public class Table {
     private Pocket[] pockets;
     private Pocket pocket;
     private Image img;
+    private PoolGame game;
 
-    public Table(Ball b) {
+    public Table(Ball b, PoolGame game) {
         this.b = b;
         //this.balls = balls;
         //this.img = new ImageIcon("resources/table.png").getImage();
@@ -40,7 +41,7 @@ public class Table {
         for (int row = 0; row < 5; row++) {
             x+= 12 * 2;
             for (int col: setUpY(row)) {
-                balls.add(new Ball(x, col + y, 12, ballColors[num % 15]));
+                balls.add(new Ball(x, col + y, 12, ballColors[num % 15], game));
                 num++;
             }
         }

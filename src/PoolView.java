@@ -11,11 +11,16 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
     private Ball b;
     private Table table;
     private Cue cue;
+    private int tempdX, tempdY;
+    private double tempAngle;
     public PoolView(PoolGame game) {
         this.game = game;
         this.b = game.getB();
         this.table = game.getTable();
         this.cue = game.getCue();
+        tempAngle = 0;
+        tempdX = 0;
+        tempdY = 0;
 
         infoBox("Welcome to pool! To play, rotate the cue and pull back to release it. The game ends when you pocket the 8-ball. Good luck!", "PoolGame");
 
@@ -36,6 +41,7 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
     }
 
     public void paint(Graphics g) {
+//        cue.resetPosition();
         g.setColor(Color.black);
         g.fillRect(0, 0, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
         table.draw(g, this);
@@ -62,13 +68,15 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        cue.setX(b.getX() + 12 + 12);
-        cue.setY(b.getY() + 12 - 2);
+        cue.resetPosition();
 //        if(cue.checkCollision()) {
 //            // set ball velocity and angle
 //            // b.move()
 //        }
         //cue.setVisible(false);
+        b.setDx(tempdX);
+        b.setDy(tempdY);
+        b.setAngle(tempAngle);
     }
 
     @Override
@@ -89,6 +97,10 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
         if (cue.getX() - b.getX() < 75) {
             cue.setX(cue.getX() + 1);
         }
+        // adjust speed based on how far back the cue goes
+        tempAngle = cue.getAngle();
+        tempdX = (int) (Math.min(cue.distBall(), 63) * Math.cos(cue.getAngle()) * -1);
+        tempdY = (int) (Math.min(cue.distBall(), 63) * Math.sin(cue.getAngle()) * -1);
         repaint();
     }
 

@@ -6,23 +6,25 @@ public class Ball {
     private int radius;
     private int dx, dy;
     private Color color;
+    private final static double friction = 0.95;
     private boolean isTouchingBall;
     private boolean isTouchingWall;
     private boolean inPocket;
     private boolean onBoard;
-    private Player owner;
     private Double angle;
     private Image img;
+    private PoolGame game;
 
-    public Ball(int startX, int startY, int radius, Color color) {
+    public Ball(int startX, int startY, int radius, Color color, PoolGame game) {
         this.startX = startX;
         this.startY = startY;
         x = startX;
         y = startY;
         this.radius = radius;
-        this.dx = 0;
-        this.dy = 0;
+        this.dx = 1;
+        this.dy = 2;
         this.color = color;
+        this.game = game;
     }
 
     public int getX() {
@@ -114,14 +116,6 @@ public class Ball {
         this.onBoard = onBoard;
     }
 
-    public Player getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Player owner) {
-        this.owner = owner;
-    }
-
     public Double getAngle() {
         return angle;
     }
@@ -141,14 +135,39 @@ public class Ball {
     public void move() {
         x += dx;
         y += dy;
+        dx = (int) (dx * friction);
+        dy = (int) (dy * friction);
     }
 
     public void move(double velocity, double angle) {
-
+        dx = (int) (velocity * Math.cos(angle)) * -1;
+        dy = (int) (velocity * Math.sin(angle)) * -1;
+//        while (dx > 0 || dy > 0) {
+//            x += dx;
+//            y += dx;
+//            dx = (int) (dx * friction);
+//            dy = (int) (dx * friction);
+//        }
+        x += (int) (dx * friction);
+        y += (int) (dy * friction);
+        System.out.println("X: " + dx * friction);
+        System.out.println("Y: " + dy * friction);
     }
 
     public void bounceWall() {
-
+//        if ((x <= 0 && dx < 0) || (x >= tankWidth - tank.getFishImages()[0].getHeight(tank) && dx > 0)) {
+//            dx = -dx;
+//        }
+//        // Image does not take up all 120 px vertically, so have to subtract 90 instead
+//        if ((y <= 0 && dy < 0) || (y >= tankHeight - (90) && dy > 0)) {
+//            dy = -dy;
+//        }
+        if ((x <= 0 && dx < 0) || (x >= game.WINDOW_WIDTH - radius * 2 && dx > 0)) {
+            dx = -dx;
+        }
+        if ((y <= 0 && dy < 0) || (y >= game.WINDOW_HEIGHT - radius * 2 && dy > 0)) {
+            dy = -dy;
+        }
     }
 
     public void bounceBall(Ball other) {

@@ -15,8 +15,8 @@ public class PoolGame implements ActionListener {
     private Cue cue;
 
     public PoolGame() {
-        b = new Ball(200, 500 / 2 + 12, 12, Color.white);
-        table = new Table(b);
+        b = new Ball(200, 500 / 2 + 12, 12, Color.white, this);
+        table = new Table(b, this);
         cue = new Cue(b);
         window = new PoolView(this);
     }
@@ -50,11 +50,11 @@ public class PoolGame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         System.out.println("Hi");
-        if (cue.isVisible() && cue.checkCollision()) {
-            // Calculate velocity of the cue
-
-            // b.move();
-        }
+        // Calculate velocity of the cue
+        b.move();
+        b.bounceWall();
+        //cue.resetPosition();
+        window.repaint();
     }
 
     public static void main(String args[]) {

@@ -93,18 +93,29 @@ public class Cue {
         return distBall;
     }
 
+    public double getVelocity() {
+        return distBall;
+    }
+
     public boolean checkCollision() {
 //        // get center of the ball
 //        double bx = whiteBall.getX() + whiteBall.getRadius();
 //        double by = whiteBall.getY() + whiteBall.getRadius();
 //        // get distance from center
 //        int dist = (int) Math.sqrt(Math.pow(x - bx, 2) + Math.pow(y - by, 2));
+        distBall = distBall();
+        System.out.println(distBall);
         if (distBall <= 12) {
+
             return true;
         }
         return false;
     }
 
+    public void resetPosition() {
+        x = whiteBall.getX() + 12 + 12;
+        y = whiteBall.getY() + 12 - 2;
+    }
     public void drawTrajectory(Ball b) {
 
     }
