@@ -113,7 +113,7 @@ public class Cue {
     }
 
     public void resetPosition() {
-        x = whiteBall.getX() + 12 + 12;
+        x = whiteBall.getX() + 24 + 10;
         y = whiteBall.getY() + 12 - 2;
     }
     public void drawTrajectory(Ball b) {
@@ -121,18 +121,24 @@ public class Cue {
     }
 
     public void draw(Graphics g, PoolView window) {
-        g.setColor(Color.BLACK);
-        //g.fillRect(whiteBall.getX() - x - 5, whiteBall.getY() + whiteBall.getRadius() - 5, 400, 5);
-        //g.drawImage(img, whiteBall.getX() - x, whiteBall.getY() - whiteBall.getRadius() / 2, 400, 50, window);
-        Graphics2D g2d = (Graphics2D) g;
-        //AffineTransform tx = new AffineTransform();
-        //tx.rotate(0.5);
+        if (whiteBall.getDx() == 0 && whiteBall.getDy() == 0) {
+            //resetPosition();
+            g.setColor(Color.BLACK);
+            //g.fillRect(whiteBall.getX() - x - 5, whiteBall.getY() + whiteBall.getRadius() - 5, 400, 5);
+            //g.drawImage(img, whiteBall.getX() - x, whiteBall.getY() - whiteBall.getRadius() / 2, 400, 50, window);
+            Graphics2D g2d = (Graphics2D) g;
+            //AffineTransform tx = new AffineTransform();
+            //tx.rotate(0.5);
 
-        Rectangle shape = new Rectangle(x, y, 400, 5);
-        g2d.rotate(angle, whiteBall.getX() + 12, whiteBall.getY() + 12); // Rotate around the center of the ball
-        g2d.fill(shape);
-        g2d.draw(shape);
-        //g2d.drawImage(img, x, y, 200, 50, window);
+            Rectangle shape = new Rectangle(x, y, 400, 5);
+            g2d.rotate(angle, whiteBall.getX() + 12, whiteBall.getY() + 12); // Rotate around the center of the ball
+            g2d.fill(shape);
+            g2d.draw(shape);
+            //g2d.drawImage(img, x, y, 200, 50, window);
+        } else {
+            resetPosition();
+        }
+
     }
 
 }

@@ -3,8 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
-
 public class PoolGame implements ActionListener {
     private PoolView window;
     public static final int WINDOW_WIDTH = 800;
@@ -19,6 +17,7 @@ public class PoolGame implements ActionListener {
         table = new Table(b, this);
         cue = new Cue(b);
         window = new PoolView(this);
+
     }
 
     public Ball getB() {

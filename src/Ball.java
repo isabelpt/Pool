@@ -21,8 +21,8 @@ public class Ball {
         x = startX;
         y = startY;
         this.radius = radius;
-        this.dx = 1;
-        this.dy = 2;
+        this.dx = 0;
+        this.dy = 0;
         this.color = color;
         this.game = game;
     }
@@ -165,7 +165,7 @@ public class Ball {
         if ((x <= 0 && dx < 0) || (x >= game.WINDOW_WIDTH - radius * 2 && dx > 0)) {
             dx = -dx;
         }
-        if ((y <= 0 && dy < 0) || (y >= game.WINDOW_HEIGHT - radius * 2 && dy > 0)) {
+        if ((y <= 50 && dy < 0) || (y >= game.WINDOW_HEIGHT - radius * 2 && dy > 0)) {
             dy = -dy;
         }
     }

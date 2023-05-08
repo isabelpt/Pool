@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import java.awt.image.BufferStrategy;
 
 public class PoolView extends JFrame implements MouseListener, MouseMotionListener {
     private PoolGame game;
@@ -41,6 +42,22 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
     }
 
     public void paint(Graphics g) {
+        BufferStrategy bf = this.getBufferStrategy();
+        if (bf == null)
+            return;
+        Graphics g2 = null;
+        try {
+            g2 = bf.getDrawGraphics();
+            myPaint(g2);
+        }
+        finally {
+            g2.dispose();
+        }
+        bf.show();
+        Toolkit.getDefaultToolkit().sync();
+    }
+
+    public void myPaint(Graphics g) {
 //        cue.resetPosition();
         g.setColor(Color.black);
         g.fillRect(0, 0, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
