@@ -11,7 +11,7 @@ public class Ball {
     private boolean isTouchingWall;
     private boolean inPocket;
     private boolean onBoard;
-    private Double angle;
+    private Double angle, velocity;
     private Image img;
     private PoolGame game;
 
@@ -27,6 +27,7 @@ public class Ball {
         this.game = game;
         inPocket = false;
         angle = 0.0;
+        velocity = 0.0;
     }
 
     public int getX() {
@@ -134,12 +135,33 @@ public class Ball {
         this.img = img;
     }
 
+    public Double getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(Double velocity) {
+        this.velocity = velocity;
+    }
+
     public void move() {
         x += dx;
         y += dy;
         dx = (int) (dx * friction);
         dy = (int) (dy * friction);
         // get hypotanuse of distance
+//        double dist = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+//        dist *= friction;
+//        double tempDx = 0, tempDy = 0;
+//        if (dx != 0) {
+//            tempDx = dist * Math.cos(Math.atan(dy/dx) + Math.toRadians(180));
+//            tempDy = dist * Math.sin(Math.atan(dy/dx) + Math.toRadians(180));
+////            dx = (int) tempDx;
+////            dy = (int) tempDy;
+//        }
+//
+//        dx = dx >= 0 ? (int) tempDx : (int) tempDx * -1;
+//        dy = dy >= 0 ? (int) tempDy : (int) tempDy * -1;
+
     }
 
     public void move(double velocity, double angle) {
@@ -161,7 +183,44 @@ public class Ball {
     }
 
     public void bounceBall(Ball other) {
+        // need to apply physics equation
+//        other.dx = dx;
+//        other.dy = dy; // swap these
+        if (calcVelocity() > other.calcVelocity()) {
+            other.dx = (int) (dx * 0.8);
+            other.dy = (int) (dy * 0.8);
+            dx = (int) (dx * 0.2);
+            dy = (int) (dy * 0.2);
+        }
+        else {
+            dx = (int) (other.dx * 0.8);
+            dy = (int) (other.dy * 0.8);
+            other.dx = (int) (dx * 0.2);
+            other.dy = (int) (dy * 0.2);
+        }
+    }
 
+    public double calcVelocity() {
+        return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+    }
+
+
+    public boolean isTouching(Ball other) {
+        // check if distance between the two centers = radius * 2
+        double dist = Math.hypot(x - other.x, y - other.y);
+        if (dist <= radius * 2) {
+            return true;
+        }
+        return false;
+    }
+
+    public void reset() {
+        x = startX;
+        y = startY;
+        dx = 0;
+        dy = 0;
+        game.getCue().resetPosition();
+        inPocket = false;
     }
 
     public void draw(Graphics g) {

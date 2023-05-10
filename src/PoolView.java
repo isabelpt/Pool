@@ -13,7 +13,7 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
     private Table table;
     private Cue cue;
     private int tempdX, tempdY;
-    private double tempAngle;
+    private double tempAngle, tempV;
     public PoolView(PoolGame game) {
         this.game = game;
         this.b = game.getB();
@@ -22,6 +22,7 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
         tempAngle = 0;
         tempdX = 0;
         tempdY = 0;
+        tempV = 0.0;
 
         infoBox("Welcome to pool! To play, rotate the cue and pull back to release it. The game ends when you pocket the 8-ball. Good luck!", "PoolGame");
 
@@ -94,6 +95,7 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
         b.setDx(tempdX);
         b.setDy(tempdY);
         b.setAngle(tempAngle);
+        b.setVelocity(tempV);
     }
 
     @Override
@@ -118,6 +120,7 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
         tempAngle = cue.getAngle();
         tempdX = (int) (Math.min(cue.distBall(), 63) * Math.cos(cue.getAngle()) * -1);
         tempdY = (int) (Math.min(cue.distBall(), 63) * Math.sin(cue.getAngle()) * -1);
+        tempV = Math.min(cue.distBall(), 63);
         repaint();
     }
 

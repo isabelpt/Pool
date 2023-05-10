@@ -28,8 +28,8 @@ public class Table {
         int y = 29 - 10;
         pockets = new Pocket[6];
         for(int i = 0; i < 5; i+=2) {
-            pockets[i] = new Pocket(x, y);
-            pockets[i+1] = new Pocket(x, 500 - 30);
+            pockets[i] = new Pocket(x, y, this);
+            pockets[i+1] = new Pocket(x, 500 - 30, this);
             x+= playWidth/2 - 10;
         }
 
@@ -67,6 +67,10 @@ public class Table {
         return width;
     }
 
+    public Ball getB() {
+        return b;
+    }
+
     public ArrayList<Ball> getBalls() {
         return balls;
     }
@@ -84,15 +88,38 @@ public class Table {
     }
 
     public void checkBallCollisions() {
-
+        for (int i = 0; i < balls.size(); i++) {
+            if (balls.get(i).isTouching(b)) {
+                balls.get(i).bounceBall(b);
+            }
+            for (int j = 0; j < balls.size(); j++) {
+                if (i != j && balls.get(i).isTouching(balls.get(j))) {
+                    balls.get(i).bounceBall(balls.get(j));
+                }
+            }
+//            if (balls.get(i).isTouching(balls.get(i+1))) {
+//                balls.get(i).bounceBall(balls.get(i+1));
+//            }
+//            for (int j = i + 1; i < balls.size() - 1; j++) {
+//                if (balls.get(i).isTouching(balls.get(j))) {
+//                    balls.get(i).bounceBall(balls.get(j));
+//                }
+//            }
+        }
     }
 
     public void checkWallCollisions() {
-
+        for (Ball ball : balls) {
+            ball.bounceWall();
+        }
+        b.bounceWall();
     }
 
     public void checkPockets() {
         for (Pocket p: pockets) {
+            for (Ball ball : balls) {
+                p.inPocket(ball);
+            }
             p.inPocket(b);
         }
     }

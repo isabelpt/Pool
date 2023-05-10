@@ -3,9 +3,11 @@ import java.awt.*;
 public class Pocket {
     public final static int radius = 20;
     private int x, y;
-    public Pocket(int x, int y) {
+    private Table table;
+    public Pocket(int x, int y, Table table) {
         this.x = x;
         this.y = y;
+        this.table = table;
     }
 
     public void inPocket(Ball b) {
@@ -21,6 +23,9 @@ public class Pocket {
         int dist = (int) Math.hypot(bx - px, by - py);
         if (dist < radius) {
             b.setInPocket(true);
+            if (b.equals(table.getB())) {
+                b.reset();
+            }
         }
     }
 
