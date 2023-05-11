@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import java.awt.image.BufferStrategy;
 
@@ -13,18 +12,15 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
     private Table table;
     private Cue cue;
     private int tempdX, tempdY;
-    private double tempAngle, tempV;
     public PoolView(PoolGame game) {
         this.game = game;
         this.b = game.getB();
         this.table = game.getTable();
         this.cue = game.getCue();
-        tempAngle = 0;
         tempdX = 0;
         tempdY = 0;
-        tempV = 0.0;
 
-        infoBox("Welcome to pool! To play, rotate the cue and pull back to release it. The game ends when you pocket the 8-ball. Good luck!", "PoolGame");
+        infoBox("Welcome to pool! Try to get the balls into the corresponding color pocket as quickly as possible. Good luck!", "PoolGame");
 
         this.setSize(game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
         this.setVisible(true);
@@ -34,12 +30,6 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
 
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
-
-//        this.repaint();
-    }
-
-    public void startView() {
-
     }
 
     public void paint(Graphics g) {
@@ -59,18 +49,13 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
     }
 
     public void myPaint(Graphics g) {
-//        cue.resetPosition();
         g.setColor(Color.black);
         g.fillRect(0, 0, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
         table.draw(g, this);
-        ArrayList<Ball> balls = table.getBalls();
-        for (Ball ball: balls) {
-            ball.draw(g);
-        }
-        b.draw(g);
         if(cue.isVisible()) {
             cue.draw(g, this);
         }
+        b.draw(g);
         Toolkit.getDefaultToolkit().sync();
     }
 
@@ -87,15 +72,8 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
     @Override
     public void mouseReleased(MouseEvent e) {
         cue.resetPosition();
-//        if(cue.checkCollision()) {
-//            // set ball velocity and angle
-//            // b.move()
-//        }
-        //cue.setVisible(false);
         b.setDx(tempdX);
         b.setDy(tempdY);
-        b.setAngle(tempAngle);
-        b.setVelocity(tempV);
     }
 
     @Override
@@ -110,17 +88,13 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
 
     @Override
     public void mouseDragged(MouseEvent e) {
-//        b.setX(e.getX());
-//        b.setY(e.getY());
         // need to make sure that the cursor is moving away from the ball
         if (cue.getX() - b.getX() < 75) {
             cue.setX(cue.getX() + 1);
         }
         // adjust speed based on how far back the cue goes
-        tempAngle = cue.getAngle();
         tempdX = (int) (Math.min(cue.distBall(), 63) * Math.cos(cue.getAngle()) * -1);
         tempdY = (int) (Math.min(cue.distBall(), 63) * Math.sin(cue.getAngle()) * -1);
-        tempV = Math.min(cue.distBall(), 63);
         repaint();
     }
 

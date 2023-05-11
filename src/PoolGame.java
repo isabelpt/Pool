@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 public class PoolGame implements ActionListener {
     private PoolView window;
@@ -13,11 +14,10 @@ public class PoolGame implements ActionListener {
     private Cue cue;
 
     public PoolGame() {
-        b = new Ball(200, 500 / 2 + 12, 12, Color.white, this);
+        b = new Ball(200, 500 / 2 + 12, 12, this);
         table = new Table(b, this);
         cue = new Cue(b);
         window = new PoolView(this);
-
     }
 
     public Ball getB() {
@@ -34,32 +34,19 @@ public class PoolGame implements ActionListener {
         return cue;
     }
 
-
-    public void start() {
-
-    }
-
     public void end() {
-
-    }
-
-    public void run() {
-
+        window.setVisible(false);
+        window.infoBox("Congrats! You completed the game.", "PoolGame");
     }
 
     public void actionPerformed(ActionEvent e) {
-        //System.out.println("Hi");
-        // Calculate velocity of the cue
-        //b.bounceWall();;
         b.move();
-        for (Ball ball : table.getBalls()) {
-            ball.move();
-        }
         table.checkPockets();
-        table.checkWallCollisions();
-        table.checkBallCollisions();
-
-        //cue.resetPosition();
+        table.checkWallCollision();
+        Date currentDate = new Date();
+        if (currentDate.getTime() % 100 == 0) {
+            table.switchPocketColors();
+        }
         window.repaint();
     }
 
@@ -68,9 +55,5 @@ public class PoolGame implements ActionListener {
         Timer clock = new Timer(SLEEP_TIME, g);
         clock.start();
 
-
-        // in your main() method, make sure to "turn on" mouse listener and mouse motion listener!!
-
-        // Register the Mouse Listener and Mouse Motion Listener
     }
 }
