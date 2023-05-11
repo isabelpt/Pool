@@ -51,13 +51,14 @@ public class PoolGame implements ActionListener {
         //System.out.println("Hi");
         // Calculate velocity of the cue
         //b.bounceWall();;
+        b.move();
         for (Ball ball : table.getBalls()) {
             ball.move();
         }
-        b.move();
         table.checkPockets();
         table.checkWallCollisions();
         table.checkBallCollisions();
+
         //cue.resetPosition();
         window.repaint();
     }

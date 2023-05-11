@@ -130,10 +130,15 @@ public class Cue {
             //AffineTransform tx = new AffineTransform();
             //tx.rotate(0.5);
 
-            Rectangle shape = new Rectangle(x, y, 300, 5);
+            Rectangle shape1 = new Rectangle(x, y, 300, 5);
+            Rectangle shape2 = new Rectangle(x - 1000, y, 950, 2);
             g2d.rotate(angle, whiteBall.getX() + 12, whiteBall.getY() + 12); // Rotate around the center of the ball
-            g2d.fill(shape);
-            g2d.draw(shape);
+            g2d.fill(shape1);
+            g2d.draw(shape1);
+            //g2d.rotate(angle + Math.toRadians(180), whiteBall.getX() + 12, whiteBall.getY() + 12);
+            g2d.setColor(Color.white);
+            g2d.fill(shape2);
+            g2d.draw(shape2);
             //g2d.drawImage(img, x, y, 200, 50, window);
         } else {
             resetPosition();

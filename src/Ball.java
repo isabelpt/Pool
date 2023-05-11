@@ -144,10 +144,14 @@ public class Ball {
     }
 
     public void move() {
+
         x += dx;
         y += dy;
+////        dx -= Math.round(dx * friction);
+////        dy -= Math.round(y * friction);
         dx = (int) (dx * friction);
         dy = (int) (dy * friction);
+        //game.getTable().checkBallCollisions();
         // get hypotanuse of distance
 //        double dist = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 //        dist *= friction;
@@ -182,23 +186,70 @@ public class Ball {
         }
     }
 
+//    public void bounceBall(Ball other) {
+//        // need to apply physics equation
+////        other.dx = dx;
+////        other.dy = dy; // swap these
+//        if (calcVelocity() > other.calcVelocity()) {
+//            other.dx = (int) (dx * 0.8);
+//            other.dy = (int) (dy * 0.8);
+//            dx = (int) (dx * 0.2);
+//            dy = (int) (dy * 0.2);
+//        }
+//        else {
+//            dx = (int) (other.dx * 0.8);
+//            dy = (int) (other.dy * 0.8);
+//            other.dx = (int) (dx * 0.2);
+//            other.dy = (int) (dy * 0.2);
+//        }
+//    }
     public void bounceBall(Ball other) {
-        // need to apply physics equation
-//        other.dx = dx;
-//        other.dy = dy; // swap these
-        if (calcVelocity() > other.calcVelocity()) {
-            other.dx = (int) (dx * 0.8);
-            other.dy = (int) (dy * 0.8);
-            dx = (int) (dx * 0.2);
-            dy = (int) (dy * 0.2);
-        }
-        else {
-            dx = (int) (other.dx * 0.8);
-            dy = (int) (other.dy * 0.8);
-            other.dx = (int) (dx * 0.2);
-            other.dy = (int) (dy * 0.2);
+        int xDiff = other.x - x;
+        int yDiff = other.y - y;
+        int distance = (int) Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+        int overlap = radius + other.radius - distance;
+
+        // Check if the balls are touching
+        if (overlap > 0) {
+            isTouchingBall = true;
+            other.isTouchingBall = true;
+
+            // Calculate the normal and tangent vectors
+            double nx = xDiff / distance;
+            double ny = yDiff / distance;
+            double tx = -ny;
+            double ty = nx;
+
+            // Calculate the dot products of the velocity vectors with the normal and tangent vectors
+            double dpTan1 = dx * tx + dy * ty;
+            double dpTan2 = other.dx * tx + other.dy * ty;
+            double dpNorm1 = dx * nx + dy * ny;
+            double dpNorm2 = other.dx * nx + other.dy * ny;
+
+            // Calculate the new tangent velocity components
+            double m1 = (dpTan1 * (radius - other.radius) + 2 * other.radius * dpTan2) / (radius + other.radius);
+            double m2 = (dpTan2 * (other.radius - radius) + 2 * radius * dpTan1) / (radius + other.radius);
+
+            // Calculate the new normal velocity components (after conservation of momentum)
+            double v1n = dpNorm1 * (radius - other.radius) + 2 * other.radius * dpNorm2;
+            double v2n = dpNorm2 * (other.radius - radius) + 2 * radius * dpNorm1;
+            v1n = v1n / (radius + other.radius);
+            v2n = v2n / (radius + other.radius);
+
+            // Set the new velocity vectors
+            dx = (int) (tx * m1 + nx * v1n);
+            dy = (int) (ty * m1 + ny * v1n);
+            other.dx = (int) (tx * m2 + nx * v2n);
+            other.dy = (int) (ty * m2 + ny * v2n);
+
+//            // Move the balls away from each other so they're not overlapping
+//            x -= (int) (overlap * nx / 2);
+//            y -= (int) (overlap * ny / 2);
+//            other.x += (int) (overlap * nx / 2);
+//            other.y += (int) (overlap * ny / 2);
         }
     }
+
 
     public double calcVelocity() {
         return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
