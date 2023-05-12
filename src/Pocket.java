@@ -1,11 +1,22 @@
 import java.awt.*;
 
+/**
+ * Pocket class
+ */
 public class Pocket {
-    public final static int radius = 20;
+    // Instance variables
+    private final static int radius = 20;
     private int x, y;
     private Table table;
     private Color c;
-    public static final Color defaultColor = new Color(60, 122, 77);
+    private static final Color defaultColor = new Color(60, 122, 77);
+
+    /**
+     * Constructor
+     * @param x
+     * @param y
+     * @param table
+     */
     public Pocket(int x, int y, Table table) {
         this.x = x;
         this.y = y;
@@ -13,11 +24,27 @@ public class Pocket {
         c = defaultColor;
     }
 
+    /**
+     * Set color
+     * @param c
+     */
     public void setC(Color c) {
         this.c = c;
     }
 
-    public void inPocket(Ball b) {
+    /**
+     * Reset color to default
+     */
+    public void resetC() {
+        c = defaultColor;
+    }
+
+    /**
+     * Check if ball is in the pocket
+     * If it is, reset the ball and change colors
+     */
+    public void inPocket() {
+        Ball b = table.getB();
         // Get center of the ball
         int bx = b.getX() + b.getRadius();
         int by = b.getY() + b.getRadius();
@@ -26,11 +53,14 @@ public class Pocket {
         int px = x + radius;
         int py = y + radius;
 
-        // get distance
+        // Get distance
         int dist = (int) Math.hypot(bx - px, by - py);
+
+        // If ball in pocket, reset the ball
         if (dist < radius + 5) {
             b.setInPocket(true);
             b.reset();
+            // If colors match, change ball color
             if (b.getColor().equals(c)) {
                 b.changeColor();
             }
@@ -40,6 +70,10 @@ public class Pocket {
 
     }
 
+    /**
+     * Draw pocket as circle with x, y, and radius
+     * @param g
+     */
     public void draw(Graphics g) {
         g.setColor(c);
         g.fillOval(x, y, radius * 2, radius * 2);

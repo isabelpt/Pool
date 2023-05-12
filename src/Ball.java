@@ -1,6 +1,11 @@
 import java.awt.*;
 
+/**
+ * Ball class
+ * Move and draw ball
+ */
 public class Ball {
+    // Instance variables
     private int x, y;
     private int startX, startY;
     private int radius;
@@ -11,6 +16,13 @@ public class Ball {
     private PoolGame game;
     private int round;
 
+    /**
+     * Constructor
+     * @param startX initial x-value
+     * @param startY initial y-value
+     * @param radius set radius
+     * @param game backend
+     */
     public Ball(int startX, int startY, int radius, PoolGame game) {
         this.startX = startX;
         this.startY = startY;
@@ -26,6 +38,10 @@ public class Ball {
         inPocket = false;
     }
 
+    /**
+     * Getter and setter methods
+     * @return
+     */
     public int getX() {
         return x;
     }
@@ -70,6 +86,10 @@ public class Ball {
         this.inPocket = inPocket;
     }
 
+    /**
+     * Move ball (change x and y)
+     * Update dx and dy based on coefficient of friction
+     */
     public void move() {
         x += dx;
         y += dy;
@@ -77,15 +97,10 @@ public class Ball {
         dy = (int) (dy * friction);
     }
 
-    public void move(double velocity, double angle) {
-        dx = (int) (velocity * Math.cos(angle)) * -1;
-        dy = (int) (velocity * Math.sin(angle)) * -1;
-        x += (int) (dx * friction + 0.5);
-        y += (int) (dy * friction + 0.5);
-        System.out.println("X: " + dx * friction);
-        System.out.println("Y: " + dy * friction);
-    }
-
+    /**
+     * If the ball is in contact with the wall,
+     * bounce of by flipping dx or dy
+     */
     public void bounceWall() {
         if ((x <= 0 && dx < 0) || (x >= game.WINDOW_WIDTH - radius * 2 && dx > 0)) {
             dx = -dx;
@@ -95,6 +110,9 @@ public class Ball {
         }
     }
 
+    /**
+     * Reset to initial starting position
+     */
     public void reset() {
         x = startX;
         y = startY;
@@ -104,8 +122,11 @@ public class Ball {
         inPocket = false;
     }
 
+    /**
+     * Keep track of round and rotate through colors
+     */
     public void changeColor() {
-        if(round == 5) {
+        if (round == 5) {
             game.end();
             return;
         }
@@ -113,6 +134,10 @@ public class Ball {
         round++;
     }
 
+    /**
+     * Draw ball as long as it is not in the pocket
+     * @param g
+     */
     public void draw(Graphics g) {
         if(!inPocket) {
             g.setColor(color);

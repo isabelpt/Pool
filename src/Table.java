@@ -1,60 +1,79 @@
 import java.awt.*;
-import java.util.ArrayList;
 
+/**
+ * Table class, contains pockets
+ * Tracks pocket, ball interactions
+ */
 public class Table {
+    // Instance Variables
     public final static int height = 500;
     public final static int width = 800;
-    public final static int playHeight = 500;
-    public final static int playWidth = 800;
-    public static final Double friction = 0.9;
     public static final Color[] ballColors = {Color.red, Color.orange, Color.yellow, Color.green,
             Color.cyan};
-    private ArrayList<Ball> balls;
     private Ball b;
     private Pocket[] pockets;
-    private Pocket pocket;
-    private Image img;
-    private PoolGame game;
 
+    /**
+     * Constructor
+     * @param b ball
+     * @param game backend
+     */
     public Table(Ball b, PoolGame game) {
         this.b = b;
-        int x = -10;
-        int y = 29 - 10;
+        int x = -10; // -10 shift to show only half of ball
+        int y = 29 - 10; // -10 shift for half radius and 29 shift for top bar
+
+        // Create 6 pockets
         pockets = new Pocket[6];
         for (int i = 0; i < 5; i += 2) {
             pockets[i] = new Pocket(x, y, this);
-            pockets[i + 1] = new Pocket(x, 500 - 30, this);
-            x += playWidth / 2 - 10;
+            pockets[i + 1] = new Pocket(x, game.WINDOW_HEIGHT - 30, this);
+            x += game.WINDOW_WIDTH / 2 - 10;
         }
     }
 
-    public void checkWallCollision() {
-        b.bounceWall();
+    /**
+     * Get ball
+     * @return
+     */
+    public Ball getB() {
+        return b;
     }
 
+    /**
+     * Check each pocket if ball is inside
+     */
     public void checkPockets() {
         for (Pocket p: pockets) {
-            p.inPocket(b);
+            p.inPocket();
         }
     }
 
-    // From: https://www.w3schools.blog/java-every-second
-    public void switchPocketColors() {
-        // Get random pocket
+    /**
+     * Switch pocket with color
+     * Reset every pocket and choose new pocket to have color
+     */
+    public void switchPocket() {
+        // Reset all pockets
         for (Pocket p : pockets) {
-            p.setC(p.defaultColor);
+            p.resetC();
         }
+
+        // Choose pocket to have color
         int index = (int) (Math.random() * pockets.length);
         pockets[index].setC(b.getColor());
     }
 
-
+    /**
+     * Draw table (background and pockets)
+     * @param g
+     * @param window
+     */
     public void draw(Graphics g, PoolView window) {
         g.setColor(new Color(50, 168, 82));
         g.fillRect(0, 0, width, height);
         for(Pocket p: pockets) {
             p.draw(g);
         }
-        g.setColor(Color.yellow);
     }
 }
