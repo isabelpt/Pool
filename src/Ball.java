@@ -3,6 +3,8 @@ import java.awt.*;
 /**
  * Ball class
  * Move and draw ball
+ * @author isabelprado
+ * @version 5/12/23
  */
 public class Ball {
     // Instance variables

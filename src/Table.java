@@ -3,6 +3,8 @@ import java.awt.*;
 /**
  * Table class, contains pockets
  * Tracks pocket, ball interactions
+ * @author isabelprado
+ * @version 5/12/23
  */
 public class Table {
     // Instance Variables

@@ -2,6 +2,8 @@ import java.awt.*;
 
 /**
  * Pocket class
+ * @author isabelprado
+ * @version 5/12/23
  */
 public class Pocket {
     // Instance variables

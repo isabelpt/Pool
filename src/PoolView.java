@@ -9,6 +9,8 @@ import java.awt.image.BufferStrategy;
 /**
  * PoolView (frontend)
  * Displays graphics and takes in mouse movement
+ * @author isabelprado
+ * @version 5/12/23
  */
 public class PoolView extends JFrame implements MouseListener, MouseMotionListener {
     // Instance variables
@@ -17,7 +19,6 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
     private Table table;
     private Cue cue;
     private int tempdX, tempdY;
-    private static final int pullBackDist = 75;
 
     /**
      * Constructor
@@ -120,13 +121,13 @@ public class PoolView extends JFrame implements MouseListener, MouseMotionListen
     @Override
     public void mouseDragged(MouseEvent e) {
         // Allow user to bull back the cue until at 75 (arbitrary distance)
-        if (cue.getX() - b.getX() < pullBackDist) {
+        if (cue.getX() - b.getX() < cue.getPullBackDist()) {
             cue.setX(cue.getX() + 1);
         }
 
         // Adjust speed based on how far back the cue goes
-        tempdX = (int) (Math.min(cue.distBall(), pullBackDist - b.getRadius()) * Math.cos(cue.getAngle()) * -1);
-        tempdY = (int) (Math.min(cue.distBall(), pullBackDist - b.getRadius()) * Math.sin(cue.getAngle()) * -1);
+        tempdX = (int) (Math.min(cue.distBall(), cue.getPullBackDist() - b.getRadius()) * Math.cos(cue.getAngle()) * -1);
+        tempdY = (int) (Math.min(cue.distBall(), cue.getPullBackDist() - b.getRadius()) * Math.sin(cue.getAngle()) * -1);
         repaint();
     }
 
